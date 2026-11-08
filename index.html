@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="bn" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Movie Collection - নতুন মুভি কালেকশন</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Google Fonts: Hind Siliguri (Apple-like modern Bengali) & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Hind Siliguri"', 'Inter', 'sans-serif'],
+          },
+          colors: {
+            oled: '#060812',
+            cardbg: '#0c1022',
+            brand: {
+              red: '#e50914',
+              hover: '#ff1e27',
+              accent: '#ff0055',
+              cyan: '#00d2ff'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      background-color: #060812;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(229, 9, 20, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 210, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255, 0, 85, 0.04) 0%, transparent 50%);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Hind Siliguri", "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .glass-nav {
+      background: rgba(6, 8, 18, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .glass-card {
+      background: rgba(14, 18, 36, 0.65);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .glass-panel {
+      background: rgba(10, 14, 28, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .glow-red {
+      box-shadow: 0 0 25px rgba(229, 9, 20, 0.45);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glow-red:hover {
+      box-shadow: 0 0 35px rgba(229, 9, 20, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .glow-cyan {
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glow-cyan:hover {
+      box-shadow: 0 0 35px rgba(0, 210, 255, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .movie-card:hover .poster-img {
+      transform: scale(1.05);
+    }
+    .movie-card:hover .overlay-play {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Shimmer Skeleton Animation */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, #13182e 25%, #1c2445 50%, #13182e 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.6s infinite;
+    }
+
+    /* Hide scrollbars */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+
+  <!-- Container for dynamically injected Adsterra Popunder / Social Bar scripts -->
+  <div id="dynamicAdsterraContainer"></div>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col selection:bg-brand-red selection:text-white">
+
+  <!-- Top Realtime Notification Bar -->
+  <div class="bg-gradient-to-r from-red-950 via-slate-900 to-indigo-950 border-b border-red-500/20 py-2 px-4 text-center text-xs sm:text-sm font-medium text-slate-200">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-2">
+      <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+      </span>
+      <span id="siteNoticeText">🔥 সাউথ ডাবড ও নতুন বলিউড সিনেমা প্রতিদিন ফুল ৪K কোয়ালিটিতে আপডেট করা হয়!</span>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 glass-nav px-4 sm:px-8 py-3.5 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-red via-brand-accent to-amber-500 flex items-center justify-center text-white shadow-lg shadow-brand-red/30 group-hover:scale-105 transition-transform duration-300">
+          <i class="fa-solid fa-play text-lg ml-0.5"></i>
+        </div>
+        <div>
+          <span class="text-lg sm:text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent block leading-tight">
+            New Movie Collection
+          </span>
+          <span class="text-[11px] text-red-400 font-semibold tracking-wide flex items-center gap-1.5">
+            <span>নতুন মুভি কালেকশন</span>
+            <span class="text-[9px] bg-red-500/20 border border-red-500/30 text-red-300 px-1 rounded font-bold uppercase">4K OTT</span>
+          </span>
+        </div>
+      </a>
+
+      <!-- Search Field (Desktop) -->
+      <div class="relative hidden md:block w-80 lg:w-96">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+        <input 
+          id="searchInput"
+          type="text" 
+          placeholder="মুভির নাম খুঁজুন (Search Movie)..." 
+          class="w-full bg-slate-900/90 text-sm rounded-full pl-10 pr-4 py-2 border border-white/10 focus:border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500/20 text-slate-200 placeholder-slate-500 transition-all"
+          oninput="handleSearch(this.value)"
+        >
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Direct Server 1 Quick Play -->
+        <button onclick="triggerDirectServer1()" class="hidden sm:inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-red to-brand-accent text-white font-medium text-xs px-3.5 py-2 rounded-xl glow-red">
+          <i class="fa-solid fa-bolt text-amber-300"></i>
+          <span>ফাস্ট সার্ভার</span>
+        </button>
+
+        <!-- Telegram Channel -->
+        <a id="navTelegramLink" href="https://t.me/" target="_blank" class="flex items-center gap-1.5 bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold transition-all shadow-sm">
+          <i class="fa-brands fa-telegram text-base text-sky-400"></i>
+          <span class="hidden sm:inline">টেলিগ্রাম গ্রুপ</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="mt-3 md:hidden">
+      <div class="relative w-full">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+        <input 
+          id="mobileSearchInput"
+          type="text" 
+          placeholder="মুভির নাম লিখে খুঁজুন..." 
+          class="w-full bg-slate-900/90 text-sm rounded-xl pl-10 pr-4 py-2.5 border border-white/10 focus:border-red-500 focus:outline-none text-slate-200 placeholder-slate-500"
+          oninput="handleSearch(this.value)"
+        >
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Spotlight / Featured Banner -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-5 pb-3 w-full">
+    <div class="relative rounded-3xl overflow-hidden glass-card p-6 sm:p-12 border border-white/10 shadow-2xl">
+      <div class="absolute inset-0 bg-gradient-to-r from-oled via-oled/70 to-transparent z-10"></div>
+      <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=1600&q=80" alt="Spotlight" class="absolute inset-0 w-full h-full object-cover object-center opacity-40">
+      
+      <div class="relative z-20 max-w-xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/20 border border-red-500/30 text-red-300 text-xs font-semibold uppercase tracking-wider mb-3 backdrop-blur-md">
+          <i class="fa-solid fa-fire text-amber-400"></i> ট্রেন্ডিং ও সুপারহিট কালেকশন
+        </div>
+        <h1 class="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mb-3">
+          সাউথ ও বলিউড সিনেমা এখন <span class="bg-gradient-to-r from-brand-red via-brand-accent to-amber-400 bg-clip-text text-transparent">ফুল ৪K HD-তে</span>
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-300 mb-6 leading-relaxed">
+          কোনো সাবস্ক্রিপশন ছাড়াই যেকোনো ভারতীয় সিনেমা অনলাইনে সরাসরি স্ট্রিম করুন অথবা আল্ট্রা-ফাস্ট ডাউনলোড করুন।
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <button onclick="scrollToCollection()" class="bg-gradient-to-r from-brand-red to-brand-accent text-white font-semibold text-xs sm:text-sm px-5 py-3 rounded-2xl glow-red flex items-center gap-2">
+            <i class="fa-solid fa-circle-play text-base"></i> মুভি অ্যালবাম ব্রাউজ করুন
+          </button>
+          <button onclick="triggerDirectServer2()" class="bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 font-semibold text-xs sm:text-sm px-5 py-3 rounded-2xl border border-white/10 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-download text-emerald-400"></i> ফাস্ট ডাউনলোড লিংক
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Album Filter Tabs -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 py-3 w-full">
+    <div class="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1 text-xs sm:text-sm font-medium" id="categoryContainer">
+      <button onclick="setCategory('All', this)" class="cat-pill active bg-brand-red text-white px-4 py-2 rounded-xl border border-red-500/40 whitespace-nowrap shadow-md transition-all">
+        সকল মুভি (All)
+      </button>
+      <button onclick="setCategory('Trending', this)" class="cat-pill bg-slate-900/80 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap transition-all">
+        🔥 ট্রেন্ডিং (Trending)
+      </button>
+      <button onclick="setCategory('South Hindi Dubbed', this)" class="cat-pill bg-slate-900/80 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap transition-all">
+        সাউথ ডাবড (Hindi)
+      </button>
+      <button onclick="setCategory('Bollywood', this)" class="cat-pill bg-slate-900/80 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap transition-all">
+        বলিউড (Bollywood)
+      </button>
+      <button onclick="setCategory('Action', this)" class="cat-pill bg-slate-900/80 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap transition-all">
+        অ্যাকশন (Action)
+      </button>
+      <button onclick="setCategory('Web Series', this)" class="cat-pill bg-slate-900/80 hover:bg-slate-800 text-slate-300 px-4 py-2 rounded-xl border border-white/10 whitespace-nowrap transition-all">
+        ওয়েব সিরিজ (Series)
+      </button>
+    </div>
+  </section>
+
+  <!-- Main Movie Grid -->
+  <main id="collectionSection" class="max-w-7xl mx-auto px-4 sm:px-8 py-5 flex-grow w-full">
+    <div class="flex items-center justify-between mb-5">
+      <div class="flex items-center gap-2.5">
+        <div class="w-2.5 h-6 bg-brand-red rounded-full"></div>
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white" id="gridTitle">
+          লেটেস্ট মুভি কালেকশন
+        </h2>
+      </div>
+      <div class="flex items-center gap-2">
+        <span id="storageSourceBadge" class="text-[10px] bg-slate-800/80 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium">
+          ● লোকাল স্টোরেজ
+        </span>
+        <span id="movieCountBadge" class="text-xs bg-slate-800/80 text-slate-300 px-3 py-1 rounded-full border border-white/10 font-medium">
+          0 টি মুভি
+        </span>
+      </div>
+    </div>
+
+    <!-- Movie Grid -->
+    <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-6">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- Empty Search State -->
+    <div id="noMoviesFound" class="hidden text-center py-20">
+      <div class="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center mx-auto mb-3 text-slate-600 text-2xl border border-white/5">
+        <i class="fa-solid fa-film"></i>
+      </div>
+      <h3 class="text-base font-semibold text-slate-300">কোনো মুভি পাওয়া যায়নি!</h3>
+      <p class="text-xs text-slate-500 mt-1">অন্য কোনো নাম বা ক্যাটাগরি ফিল্টার করে চেষ্টা করুন।</p>
+    </div>
+  </main>
+
+  <!-- Sticky Bottom Quick Bar for Conversions -->
+  <div class="sticky bottom-0 z-30 glass-panel border-t border-white/10 px-4 py-3 sm:hidden">
+    <div class="flex items-center justify-between gap-3">
+      <button onclick="triggerDirectServer1()" class="flex-1 bg-gradient-to-r from-brand-red to-brand-accent text-white font-semibold py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 glow-red">
+        <i class="fa-solid fa-play"></i>
+        <span>অনলাইনে দেখুন</span>
+      </button>
+      <button onclick="triggerDirectServer2()" class="flex-1 bg-slate-800 text-slate-100 font-semibold py-2.5 rounded-xl border border-white/10 text-xs flex items-center justify-center gap-2">
+        <i class="fa-solid fa-download text-emerald-400"></i>
+        <span>ডাউনলোড HD</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Movie Detail & Streaming Modal -->
+  <div id="movieModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity">
+    <div class="glass-panel w-full max-w-lg rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+      <button onclick="closeMovieModal()" class="absolute top-3.5 right-3.5 z-20 w-8 h-8 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center transition-all border border-white/20">
+        <i class="fa-solid fa-xmark text-sm"></i>
+      </button>
+
+      <!-- Modal Poster Header -->
+      <div class="relative h-60 sm:h-72 w-full overflow-hidden">
+        <img id="modalPoster" src="" alt="Movie" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-oled via-oled/50 to-transparent"></div>
+        <div class="absolute bottom-4 left-5 right-5 z-10">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
+            <span id="modalGenre" class="text-[11px] font-semibold bg-brand-red text-white px-2.5 py-0.5 rounded-md"></span>
+            <span id="modalYear" class="text-[11px] font-medium bg-black/60 text-slate-300 px-2.5 py-0.5 rounded-md border border-white/10"></span>
+            <span id="modalQuality" class="text-[11px] font-bold bg-amber-400 text-black px-2 py-0.5 rounded-md">1080p Full HD</span>
+          </div>
+          <h3 id="modalTitle" class="text-xl sm:text-2xl font-black text-white leading-tight"></h3>
+        </div>
+      </div>
+
+      <!-- Action Buttons with Adsterra Redirection -->
+      <div class="p-5 sm:p-6 space-y-4">
+        <p id="modalDesc" class="text-xs sm:text-sm text-slate-300 leading-relaxed"></p>
+
+        <div class="space-y-2.5 pt-2">
+          <!-- Server 1 Button -->
+          <button onclick="executeWatchStream()" class="w-full bg-gradient-to-r from-brand-red via-brand-accent to-pink-600 hover:from-brand-hover hover:to-pink-500 text-white font-semibold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 glow-red text-xs sm:text-sm">
+            <i class="fa-solid fa-circle-play text-lg"></i>
+            <span>Server 1: সরাসরি অনলাইনে দেখুন (Watch Online)</span>
+          </button>
+          
+          <!-- Server 2 Button -->
+          <button onclick="executeFastDownload()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 font-semibold py-3.5 px-4 rounded-2xl border border-white/10 flex items-center justify-center gap-2 transition-all text-xs sm:text-sm">
+            <i class="fa-solid fa-cloud-arrow-down text-lg text-emerald-400"></i>
+            <span>Server 2: দ্রুত ডাউনলোড করুন (Fast Download 4K)</span>
+          </button>
+
+          <!-- Telegram Original Destination -->
+          <a id="modalTelegramBtn" href="#" target="_blank" class="w-full bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-medium py-3 px-4 rounded-2xl border border-sky-500/20 flex items-center justify-center gap-2 transition-all text-xs">
+            <i class="fa-brands fa-telegram text-base text-sky-400"></i>
+            <span>টেলিগ্রাম চ্যানেল থেকে আসল ফাইল সংগ্রহ করুন</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal -->
+  <div id="adminAuthModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md hidden">
+    <div class="glass-panel w-full max-w-sm rounded-3xl p-6 border border-white/10 shadow-2xl relative">
+      <button onclick="toggleModal('adminAuthModal', false)" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="w-12 h-12 bg-red-600/20 border border-red-500/30 rounded-2xl flex items-center justify-center mx-auto text-brand-red text-xl mb-3">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white">অ্যাডমিন প্রবেশদ্বার</h3>
+        <p class="text-xs text-slate-400 mt-1">প্যানেল এক্সেস করতে তথ্য প্রদান করুন</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">অ্যাডমিন আইডি (User ID)</label>
+          <input id="adminUserId" type="text" required placeholder="User ID লিখুন" class="w-full bg-slate-950 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-500">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">পাসওয়ার্ড (Password)</label>
+          <input id="adminPassword" type="password" required placeholder="Password দিন" class="w-full bg-slate-950 border border-white/10 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-red-500">
+        </div>
+        <div id="loginErrorMsg" class="text-xs text-red-400 hidden font-medium">আইডি অথবা পাসওয়ার্ড সঠিক নয়!</div>
+        <button type="submit" class="w-full bg-brand-red hover:bg-brand-hover text-white font-medium py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-brand-red/30">
+          লগইন করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Master Control Dashboard Modal -->
+  <div id="adminPanelModal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-2xl hidden overflow-y-auto">
+    <div class="glass-panel w-full max-w-4xl rounded-3xl border border-white/15 shadow-2xl p-5 sm:p-7 relative my-auto max-h-[92vh] flex flex-col">
+      
+      <!-- Top Bar -->
+      <div class="flex items-center justify-between pb-4 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-brand-red/20 flex items-center justify-center text-brand-red border border-brand-red/30">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+          </div>
+          <div>
+            <h3 class="text-base sm:text-lg font-bold text-white">অ্যাডমিন কন্ট্রোল সেন্টার</h3>
+            <span class="text-[11px] text-emerald-400 font-medium">● অথোরাইজড ইউজার: najifbj</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="logoutAdmin()" class="text-xs bg-red-950/60 hover:bg-red-900 border border-red-500/30 text-red-300 px-3 py-1.5 rounded-xl transition-all">
+            লগআউট
+          </button>
+          <button onclick="toggleModal('adminPanelModal', false)" class="text-slate-400 hover:text-white px-2 py-1">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex gap-2 border-b border-white/10 pt-3 pb-2 text-xs sm:text-sm font-medium overflow-x-auto no-scrollbar">
+        <button id="adminTabBtn1" onclick="switchAdminTab('upload')" class="px-3.5 py-1.5 rounded-xl bg-brand-red text-white whitespace-nowrap">
+          <i class="fa-solid fa-plus-circle mr-1"></i> নতুন মুভি আপলোড
+        </button>
+        <button id="adminTabBtn2" onclick="switchAdminTab('manage')" class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-slate-300 hover:text-white whitespace-nowrap">
+          <i class="fa-solid fa-list-check mr-1"></i> মুভি লিস্ট ম্যানেজ
+        </button>
+        <button id="adminTabBtn3" onclick="switchAdminTab('adsterra')" class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-slate-300 hover:text-white whitespace-nowrap">
+          <i class="fa-solid fa-dollar-sign mr-1"></i> Adsterra ও সেটিংস
+        </button>
+        <button id="adminTabBtn4" onclick="switchAdminTab('firebase')" class="px-3.5 py-1.5 rounded-xl bg-slate-900 text-slate-300 hover:text-white whitespace-nowrap">
+          <i class="fa-solid fa-cloud mr-1"></i> ক্লাউড ডাটাবেজ (Firebase)
+        </button>
+      </div>
+
+      <!-- Tab Contents -->
+      <div class="overflow-y-auto flex-grow py-4 pr-1 text-xs sm:text-sm">
+        
+        <!-- Tab 1: Upload New Movie -->
+        <div id="tabUploadMovie" class="space-y-4">
+          <form onsubmit="handleMovieFormSubmit(event)" class="bg-slate-950/60 p-4 sm:p-5 rounded-2xl border border-white/5 space-y-4">
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+              <div>
+                <label class="block text-slate-300 font-medium mb-1">মুভির নাম (Title) *</label>
+                <input id="formTitle" required placeholder="যেমন: Pushpa 2: The Rule" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white">
+              </div>
+
+              <div>
+                <label class="block text-slate-300 font-medium mb-1">ক্যাটাগরি (Genre/Category) *</label>
+                <select id="formCategory" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white">
+                  <option value="South Hindi Dubbed">সাউথ ডাবড (South Hindi Dubbed)</option>
+                  <option value="Bollywood">বলিউড (Bollywood)</option>
+                  <option value="Action">অ্যাকশন (Action)</option>
+                  <option value="Trending">ট্রেন্ডিং (Trending)</option>
+                  <option value="Web Series">ওয়েব সিরিজ (Web Series)</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-slate-300 font-medium mb-1">সাল ও কোয়ালিটি ব্যাজ</label>
+                <div class="flex gap-2">
+                  <input id="formYear" placeholder="2026" class="w-1/2 bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white">
+                  <input id="formBadge" placeholder="4K Ultra HD" class="w-1/2 bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white">
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-slate-300 font-medium mb-1">আইএমডিবি রেটিং (Rating)</label>
+                <input id="formRating" placeholder="8.9" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white">
+              </div>
+            </div>
+
+            <!-- Poster Selection: Local File Upload or URL -->
+            <div class="p-4 bg-slate-900/80 rounded-2xl border border-white/5 space-y-3">
+              <label class="block text-slate-200 font-semibold">মুভি পোস্টার ইমেজ (গ্যালারি থেকে সিলেক্ট করুন বা URL দিন)</label>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+                <!-- Local File Input -->
+                <div>
+                  <label class="block text-slate-400 text-[11px] mb-1">১. সরাসরি ফোন/পিসি থেকে ছবি আপলোড:</label>
+                  <input id="formLocalImage" type="file" accept="image/*" onchange="previewLocalImage(event)" class="w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-red file:text-white hover:file:bg-brand-hover">
+                </div>
+
+                <!-- Web Image URL -->
+                <div>
+                  <label class="block text-slate-400 text-[11px] mb-1">২. অথবা সরাসরি ছবির লিংক পেস্ট করুন:</label>
+                  <input id="formPosterUrl" type="url" placeholder="https://..." oninput="previewUrlImage(this.value)" class="w-full bg-slate-950 border border-white/10 rounded-xl px-3 py-2 text-white text-xs">
+                </div>
+              </div>
+
+              <!-- Image Preview Box -->
+              <div id="imagePreviewContainer" class="hidden flex items-center gap-3 pt-2">
+                <img id="imagePreviewElement" src="" alt="Preview" class="w-16 h-20 object-cover rounded-xl border border-white/20">
+                <span class="text-xs text-emerald-400 font-medium">ছবি সফলভাবে সিলেক্ট হয়েছে!</span>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label class="block text-slate-300 font-medium mb-1">মুভির বিবরণ / সারসংক্ষেপ (Short Story/Description)</label>
+              <textarea id="formDescription" rows="2" placeholder="মুভির কিছু আকর্ষণীয় কথা লিখুন যাতে পাবলিক দেখতে আগ্রহ পায়..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white"></textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-gradient-to-r from-brand-red to-brand-accent hover:from-brand-hover hover:to-pink-600 text-white font-semibold py-3 rounded-2xl transition-all shadow-lg shadow-brand-red/30">
+              <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> ওয়েবসাইটে মুভি প্রকাশ করুন (Publish Movie)
+            </button>
+          </form>
+        </div>
+
+        <!-- Tab 2: Manage Existing Movies -->
+        <div id="tabManageMovies" class="hidden space-y-3">
+          <div class="flex justify-between items-center mb-1">
+            <span class="font-bold text-white text-sm">ওয়েবসাইটে থাকা মুভি তালিকা</span>
+            <button onclick="restoreInitialDataset()" class="text-xs text-amber-400 hover:underline">
+              ডিফল্ট ৫টি ডেমো মুভি ফেরত আনুন
+            </button>
+          </div>
+          <div class="overflow-x-auto rounded-2xl border border-white/10">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-900/90 text-slate-400 border-b border-white/10">
+                <tr>
+                  <th class="p-3">পোস্টার</th>
+                  <th class="p-3">নাম</th>
+                  <th class="p-3">ক্যাটাগরি</th>
+                  <th class="p-3">সাল</th>
+                  <th class="p-3 text-right">মুছে ফেলুন</th>
+                </tr>
+              </thead>
+              <tbody id="adminTableBody" class="divide-y divide-white/5 bg-slate-950/40">
+                <!-- Injected via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 3: Adsterra & Monetization Settings -->
+        <div id="tabAdsterraSettings" class="hidden space-y-4">
+          <div class="bg-red-950/30 border border-red-500/30 p-4 rounded-2xl text-xs text-red-200 leading-relaxed">
+            <i class="fa-solid fa-shield-halved text-brand-red mr-1"></i>
+            এখানে আপনার Adsterra Direct Link (Smartlink) এবং Popunder কোড বসিয়ে দিন। ইউজার মুভি দেখতে গেলেই স্বয়ংক্রিয়ভাবে আপনার অ্যাকাউন্টে আয় জমা হবে।
+          </div>
+
+          <form onsubmit="handleSaveAdsterraConfig(event)" class="space-y-4 bg-slate-950/60 p-4 sm:p-5 rounded-2xl border border-white/5">
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Adsterra Direct Link ১ (Server 1: Watch Online বাটনের লিংক)</label>
+              <input id="cfgDirect1" type="url" required placeholder="https://www.profitablecpmrate.com/..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs">
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Adsterra Direct Link ২ (Server 2: Download HD বাটনের লিংক)</label>
+              <input id="cfgDirect2" type="url" required placeholder="https://www.profitablecpmrate.com/..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs">
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">টেলিগ্রাম চ্যানেল / আসল মুভি ড্রাইভ লিংক (অডিয়েন্স ধরে রাখার জন্য)</label>
+              <input id="cfgTelegram" type="url" placeholder="https://t.me/your_movie_channel" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs">
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">টপ নোটিশ টেক্সট (Top Announcement Text)</label>
+              <input id="cfgNotice" type="text" placeholder="নোটিশ টেক্সট লিখুন..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white text-xs">
+            </div>
+
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Adsterra Popunder / Social Bar Script Code (ঐচ্ছিক)</label>
+              <textarea id="cfgPopunderCode" rows="3" placeholder="<script type='text/javascript' src='//...'></script>" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white font-mono text-[11px]"></textarea>
+              <span class="text-[11px] text-slate-500">Adsterra সাইট সেকশন থেকে কপি করা পপ-আন্ডার জাভাস্ক্রিপ্ট কোডটি এখানে পেস্ট করতে পারেন।</span>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-2xl transition-all shadow-lg shadow-emerald-600/30">
+              <i class="fa-solid fa-check mr-1.5"></i> সমস্ত সেটিংস সেভ করুন
+            </button>
+          </form>
+        </div>
+
+        <!-- Tab 4: Firebase Cloud Database Setup (Optional) -->
+        <div id="tabFirebaseSettings" class="hidden space-y-4">
+          <div class="bg-indigo-950/40 border border-indigo-500/30 p-4 rounded-2xl text-xs text-indigo-200 leading-relaxed">
+            <h5 class="font-bold text-white mb-1">ক্লাউড সিঙ্ক্রোনাইজেশন (সব ডিভাইসে স্বয়ংক্রিয় আপডেট)</h5>
+            বর্তমানে আপনার ডাটা ব্রাউজারের মেমরিতে সেভ হচ্ছে। আপনি যদি মোবাইল থেকে মুভি আপলোড দিয়ে চান যে সবার ফোনেই সাথে সাথে তা দেখাবে, তবে Firebase Console-এ একটি ফ্রি প্রজেক্ট খুলে নিচের কনফিগ কি-গুলো দিয়ে দিন।
+          </div>
+
+          <form onsubmit="handleSaveFirebaseConfig(event)" class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
+            <div>
+              <label class="block text-slate-300 text-xs mb-1">Firebase Config JSON Object</label>
+              <textarea id="cfgFirebaseJson" rows="4" placeholder='{"apiKey": "AIzaSy...", "authDomain": "...firebaseapp.com", "projectId": "..."}' class="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-white font-mono text-xs"></textarea>
+            </div>
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl transition-all">
+              <i class="fa-solid fa-cloud-check mr-1"></i> Firebase যুক্ত করুন
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- Footer Info -->
+      <div class="pt-3 border-t border-white/10 flex justify-between items-center text-[11px] text-slate-500">
+        <span>New Movie Collection Master Admin</span>
+        <button onclick="exportFullDatabaseJson()" class="text-slate-400 hover:text-white underline">
+          ডাটা ব্যাকআপ ডাউনলোড (JSON)
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="glass-panel border border-emerald-500/40 text-emerald-300 text-xs sm:text-sm px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2.5">
+      <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+      <span id="toastMsg">সফলভাবে সম্পন্ন হয়েছে!</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-white/10 glass-panel py-7 px-4 text-center text-xs text-slate-400">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+        <p>© 2026 New Movie Collection. সমস্ত অধিকার সংরক্ষিত।</p>
+      </div>
+      
+      <div class="flex items-center gap-4 text-xs">
+        <a href="#dmca" onclick="event.preventDefault(); showToast('DMCA Policy Compliance Active')" class="hover:text-slate-200">DMCA</a>
+        <span class="text-slate-700">|</span>
+        <a href="#telegram" onclick="event.preventDefault(); window.open(siteConfig.telegramLink, '_blank')" class="hover:text-slate-200">Official Telegram</a>
+        <span class="text-slate-700">|</span>
+        <!-- Secret Admin Portal Trigger -->
+        <button onclick="openAdminAuthModal()" class="text-slate-600 hover:text-slate-400 transition-colors flex items-center gap-1.5" title="Admin Portal">
+          <i class="fa-solid fa-user-shield text-[11px]"></i>
+          <span>Admin</span>
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Core Logic Script -->
+  <script>
+    // 5 Default Superhit Indian & South Movies
+    const DEFAULT_CATALOG = [
+      {
+        id: "mov_1",
+        title: "Pushpa 2: The Rule (Hindi Dubbed)",
+        genre: "South Hindi Dubbed",
+        category: "South Hindi Dubbed",
+        year: "2026",
+        badge: "4K Ultra HD",
+        rating: "9.2",
+        poster: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=600&q=80",
+        description: "পুষ্পা রাজের দাপট ও প্রতিশোধের দুর্ধর্ষ সমাপ্তি। ফুল ৪K কোয়ালিটিতে হিন্দি ডাবিং উপভোগ করুন।"
+      },
+      {
+        id: "mov_2",
+        title: "Kalki 2898 AD (Dual Audio)",
+        genre: "Action",
+        category: "Action",
+        year: "2024",
+        badge: "1080p IMAX",
+        rating: "8.8",
+        poster: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
+        description: "ভারতীয় সিনেমার সবচেয়ে বড় সাই-ফাই ব্লকব্লাস্টার। প্রভাস এবং অমিতাভ বচ্চনের অনবদ্য অভিনয়।"
+      },
+      {
+        id: "mov_3",
+        title: "Fighter (Hrithik & Deepika)",
+        genre: "Bollywood",
+        category: "Bollywood",
+        year: "2024",
+        badge: "1080p Web-DL",
+        rating: "8.0",
+        poster: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=600&q=80",
+        description: "ভারতীয় বিমান বাহিনীর রোমাঞ্চকর আকাশযুদ্ধ এবং রোমাঞ্চকর মিশন।"
+      },
+      {
+        id: "mov_4",
+        title: "Salaar: Ceasefire (South Dubbed)",
+        genre: "Trending",
+        category: "Trending",
+        year: "2024",
+        badge: "4K HDR",
+        rating: "8.3",
+        poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
+        description: "রক্তাক্ত রাজত্ব এবং বন্ধুত্বের প্রতিদান নিয়ে নির্মিত এক দুর্ধর্ষ অ্যাকশন চলচ্চিত্র।"
+      },
+      {
+        id: "mov_5",
+        title: "Mirzapur Season 3 (Web Series)",
+        genre: "Web Series",
+        category: "Web Series",
+        year: "2024",
+        badge: "All Episodes HD",
+        rating: "8.6",
+        poster: "https://images.unsplash.com/photo-1514533450685-4493e01d1fdc?auto=format&fit=crop&w=600&q=80",
+        description: "কালিন ভাইয়া ও গুড্ডু পণ্ডিতের সেই ঐতিহাসিক গদি দখলের লড়াই।"
+      }
+    ];
+
+    // Local Storage Keys
+    const LS_MOVIES = 'nmc_movies_v2';
+    const LS_CONFIG = 'nmc_config_v2';
+
+    // State Variables
+    let moviesList = [];
+    let activeCategory = 'All';
+    let searchQuery = '';
+    let currentSelectedMovie = null;
+    let localImageBase64 = null;
+
+    let siteConfig = {
+      directLink1: 'https://www.profitablecpmrate.com/demo_direct1',
+      directLink2: 'https://www.profitablecpmrate.com/demo_direct2',
+      telegramLink: 'https://t.me/new_movie_updates',
+      noticeText: '🔥 সাউথ ডাবড ও নতুন বলিউড সিনেমা প্রতিদিন ফুল ৪K কোয়ালিটিতে আপডেট করা হয়!',
+      popunderCode: ''
+    };
+
+    // Initialize Application
+    function initApp() {
+      // Load site config
+      const savedCfg = localStorage.getItem(LS_CONFIG);
+      if (savedCfg) {
+        try {
+          siteConfig = { ...siteConfig, ...JSON.parse(savedCfg) };
+        } catch (e) {}
+      }
+
+      // Apply Config to DOM
+      applySiteConfig();
+
+      // Load movies
+      const savedMovies = localStorage.getItem(LS_MOVIES);
+      if (savedMovies) {
+        try {
+          moviesList = JSON.parse(savedMovies);
+        } catch (e) {
+          moviesList = DEFAULT_CATALOG;
+        }
+      } else {
+        moviesList = DEFAULT_CATALOG;
+        localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+      }
+
+      renderMovieGrid();
+    }
+
+    // Apply Site Config to Elements
+    function applySiteConfig() {
+      document.getElementById('siteNoticeText').innerText = siteConfig.noticeText;
+      document.getElementById('navTelegramLink').href = siteConfig.telegramLink;
+      
+      // Inject Popunder script if provided
+      if (siteConfig.popunderCode && siteConfig.popunderCode.trim().length > 0) {
+        const adContainer = document.getElementById('dynamicAdsterraContainer');
+        adContainer.innerHTML = siteConfig.popunderCode;
+      }
+    }
+
+    // Render Movie Grid
+    function renderMovieGrid() {
+      const grid = document.getElementById('moviesGrid');
+      const emptyState = document.getElementById('noMoviesFound');
+      const badge = document.getElementById('movieCountBadge');
+
+      let list = moviesList;
+
+      // Filter by Category
+      if (activeCategory !== 'All') {
+        list = list.filter(m => 
+          (m.category && m.category.toLowerCase() === activeCategory.toLowerCase()) ||
+          (m.genre && m.genre.toLowerCase() === activeCategory.toLowerCase())
+        );
+      }
+
+      // Filter by Search Query
+      if (searchQuery) {
+        list = list.filter(m => 
+          m.title.toLowerCase().includes(searchQuery) || 
+          (m.description && m.description.toLowerCase().includes(searchQuery))
+        );
+      }
+
+      badge.innerText = `${list.length} টি মুভি`;
+
+      if (list.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.innerHTML = list.map(item => `
+        <div class="movie-card group relative bg-cardbg/80 rounded-2xl overflow-hidden border border-white/5 hover:border-brand-red/50 transition-all duration-300 shadow-xl flex flex-col cursor-pointer" onclick="openMovieModal('${item.id}')">
+          
+          <!-- Poster -->
+          <div class="relative aspect-[2/3] w-full overflow-hidden bg-slate-950">
+            <img src="${item.poster}" alt="${item.title}" class="poster-img w-full h-full object-cover transition-transform duration-500 ease-out" onerror="this.src='https://placehold.co/400x600/0f172a/white?text=Poster'">
+            <div class="absolute inset-0 bg-gradient-to-t from-oled via-transparent to-black/30"></div>
+            
+            <!-- Quality Badge -->
+            <div class="absolute top-2.5 right-2.5 bg-brand-red/90 text-white px-2 py-0.5 rounded-md text-[10px] font-black tracking-wider uppercase shadow-md">
+              ${item.badge || 'HD'}
+            </div>
+
+            <!-- Rating Badge -->
+            <div class="absolute top-2.5 left-2.5 bg-black/60 backdrop-blur-md px-2 py-0.5 rounded-md text-[10px] font-bold text-amber-400 flex items-center gap-1 border border-white/10">
+              <i class="fa-solid fa-star text-[9px]"></i> ${item.rating || '8.5'}
+            </div>
+
+            <!-- Hover Play Button Overlay -->
+            <div class="overlay-play absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 transition-all duration-300 flex items-center justify-center scale-90">
+              <div class="w-13 h-13 w-12 h-12 rounded-full bg-brand-red text-white flex items-center justify-center text-xl shadow-2xl shadow-brand-red group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-play ml-0.5"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Info Box -->
+          <div class="p-3.5 flex flex-col flex-grow">
+            <div class="flex items-center justify-between text-[11px] text-slate-400 mb-1">
+              <span class="text-brand-red font-semibold">${item.genre}</span>
+              <span class="text-slate-400 font-medium">${item.year || '2026'}</span>
+            </div>
+            <h3 class="text-xs sm:text-sm font-bold text-white line-clamp-1 group-hover:text-red-400 transition-colors">
+              ${item.title}
+            </h3>
+            <div class="mt-2.5 pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
+              <span class="text-emerald-400 font-medium flex items-center gap-1">
+                <i class="fa-solid fa-circle-check text-[10px]"></i> সম্পূর্ণ ফ্রি
+              </span>
+              <span class="text-slate-400 flex items-center gap-1">
+                <i class="fa-solid fa-cloud-arrow-down text-slate-300"></i>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      `).join('');
+    }
+
+    // Category Tabs Switching
+    function setCategory(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(b => {
+        b.classList.remove('bg-brand-red', 'text-white', 'border-red-500/40');
+        b.classList.add('bg-slate-900/80', 'text-slate-300', 'border-white/10');
+      });
+      btn.classList.add('bg-brand-red', 'text-white', 'border-red-500/40');
+      btn.classList.remove('bg-slate-900/80', 'text-slate-300', 'border-white/10');
+
+      renderMovieGrid();
+    }
+
+    // Live Search
+    function handleSearch(val) {
+      searchQuery = (val || '').toLowerCase().trim();
+      document.getElementById('searchInput').value = val;
+      document.getElementById('mobileSearchInput').value = val;
+      renderMovieGrid();
+    }
+
+    // Movie Detail Modal
+    function openMovieModal(id) {
+      currentSelectedMovie = moviesList.find(m => m.id === id);
+      if (!currentSelectedMovie) return;
+
+      document.getElementById('modalPoster').src = currentSelectedMovie.poster;
+      document.getElementById('modalTitle').innerText = currentSelectedMovie.title;
+      document.getElementById('modalGenre').innerText = currentSelectedMovie.genre;
+      document.getElementById('modalYear').innerText = currentSelectedMovie.year || '2026';
+      document.getElementById('modalQuality').innerText = currentSelectedMovie.badge || '4K Ultra HD';
+      document.getElementById('modalDesc').innerText = currentSelectedMovie.description || 'সম্পূর্ণ সিনেমাটি বিনামূল্যে উপভোগ করতে নিচের যেকোনো একটি সার্ভার বেছে নিন।';
+      document.getElementById('modalTelegramBtn').href = siteConfig.telegramLink;
+
+      document.getElementById('movieModal').classList.remove('hidden');
+    }
+
+    function closeMovieModal() {
+      document.getElementById('movieModal').classList.add('hidden');
+      currentSelectedMovie = null;
+    }
+
+    // Action Triggers with Adsterra Links
+    function executeWatchStream() {
+      // Monetized Adsterra Direct Link 1
+      const link = siteConfig.directLink1 || 'https://www.profitablecpmrate.com/';
+      window.open(link, '_blank');
+      showToast('সার্ভার ১ লোড হচ্ছে! বিজ্ঞাপনের পর স্ট্রিমিং পেজে নেওয়া হবে।');
+    }
+
+    function executeFastDownload() {
+      // Monetized Adsterra Direct Link 2
+      const link = siteConfig.directLink2 || siteConfig.directLink1;
+      window.open(link, '_blank');
+      showToast('ডাউনলোড সার্ভার ২ চালু করা হয়েছে!');
+    }
+
+    function triggerDirectServer1() {
+      window.open(siteConfig.directLink1, '_blank');
+      showToast('ফাস্ট সার্ভার ১ ওপেন হচ্ছে...');
+    }
+
+    function triggerDirectServer2() {
+      window.open(siteConfig.directLink2, '_blank');
+      showToast('ডাউনলোড সার্ভার ২ ওপেন হচ্ছে...');
+    }
+
+    // Admin Authentication
+    function openAdminAuthModal() {
+      document.getElementById('adminAuthModal').classList.remove('hidden');
+      document.getElementById('loginErrorMsg').classList.add('hidden');
+      document.getElementById('adminUserId').value = '';
+      document.getElementById('adminPassword').value = '';
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('adminUserId').value.trim();
+      const p = document.getElementById('adminPassword').value.trim();
+
+      // Required Admin Credentials:
+      // ID: najifbj
+      // Pass: najifbj1020
+      if (u === 'najifbj' && p === 'najifbj1020') {
+        document.getElementById('adminAuthModal').classList.add('hidden');
+        openAdminDashboard();
+        showToast('অ্যাডমিন প্যানেলে স্বাগতম!');
+      } else {
+        document.getElementById('loginErrorMsg').classList.remove('hidden');
+      }
+    }
+
+    function openAdminDashboard() {
+      // Pre-fill Adsterra Form
+      document.getElementById('cfgDirect1').value = siteConfig.directLink1;
+      document.getElementById('cfgDirect2').value = siteConfig.directLink2;
+      document.getElementById('cfgTelegram').value = siteConfig.telegramLink;
+      document.getElementById('cfgNotice').value = siteConfig.noticeText;
+      document.getElementById('cfgPopunderCode').value = siteConfig.popunderCode || '';
+
+      renderAdminTable();
+      document.getElementById('adminPanelModal').classList.remove('hidden');
+    }
+
+    function switchAdminTab(tab) {
+      document.getElementById('tabUploadMovie').classList.toggle('hidden', tab !== 'upload');
+      document.getElementById('tabManageMovies').classList.toggle('hidden', tab !== 'manage');
+      document.getElementById('tabAdsterraSettings').classList.toggle('hidden', tab !== 'adsterra');
+      document.getElementById('tabFirebaseSettings').classList.toggle('hidden', tab !== 'firebase');
+
+      // Styles
+      const tabs = ['upload', 'manage', 'adsterra', 'firebase'];
+      tabs.forEach((t, index) => {
+        const btn = document.getElementById(`adminTabBtn${index + 1}`);
+        if (t === tab) {
+          btn.className = 'px-3.5 py-1.5 rounded-xl bg-brand-red text-white whitespace-nowrap';
+        } else {
+          btn.className = 'px-3.5 py-1.5 rounded-xl bg-slate-900 text-slate-300 hover:text-white whitespace-nowrap';
+        }
+      });
+    }
+
+    // Image Upload Handling (Local File to Base64)
+    function previewLocalImage(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        // Image compression with canvas to prevent localStorage quota issues
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 600;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height && width > maxDim) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else if (height > maxDim) {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          localImageBase64 = canvas.toDataURL('image/jpeg', 0.82);
+          
+          // Show preview
+          document.getElementById('imagePreviewElement').src = localImageBase64;
+          document.getElementById('imagePreviewContainer').classList.remove('hidden');
+          document.getElementById('formPosterUrl').value = '';
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function previewUrlImage(url) {
+      if (url && url.length > 5) {
+        localImageBase64 = null;
+        document.getElementById('imagePreviewElement').src = url;
+        document.getElementById('imagePreviewContainer').classList.remove('hidden');
+      }
+    }
+
+    // Submit New Movie
+    function handleMovieFormSubmit(e) {
+      e.preventDefault();
+      
+      const title = document.getElementById('formTitle').value.trim();
+      const category = document.getElementById('formCategory').value;
+      const year = document.getElementById('formYear').value.trim() || '2026';
+      const badge = document.getElementById('formBadge').value.trim() || '4K Ultra HD';
+      const rating = document.getElementById('formRating').value.trim() || '8.8';
+      const desc = document.getElementById('formDescription').value.trim() || 'সম্পূর্ণ এইচডি কোয়ালিটি সিনেমা।';
+
+      let finalPoster = localImageBase64 || document.getElementById('formPosterUrl').value.trim();
+
+      if (!finalPoster) {
+        showToast('অনুগ্রহ করে একটি পোস্টার ছবি আপলোড বা URL দিন!');
+        return;
+      }
+
+      const newMovie = {
+        id: 'mov_' + Date.now(),
+        title: title,
+        genre: category,
+        category: category,
+        year: year,
+        badge: badge,
+        rating: rating,
+        poster: finalPoster,
+        description: desc
+      };
+
+      moviesList.unshift(newMovie);
+      localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+
+      renderMovieGrid();
+      renderAdminTable();
+      showToast('নতুন মুভি সফলভাবে আপলোড হয়েছে!');
+
+      // Reset Form
+      document.getElementById('formTitle').value = '';
+      document.getElementById('formPosterUrl').value = '';
+      document.getElementById('formLocalImage').value = '';
+      document.getElementById('formDescription').value = '';
+      document.getElementById('imagePreviewContainer').classList.add('hidden');
+      localImageBase64 = null;
+    }
+
+    // Delete Movie
+    function deleteMovie(id) {
+      moviesList = moviesList.filter(m => m.id !== id);
+      localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+      renderMovieGrid();
+      renderAdminTable();
+      showToast('মুভি মুছে ফেলা হয়েছে!');
+    }
+
+    function renderAdminTable() {
+      const tbody = document.getElementById('adminTableBody');
+      tbody.innerHTML = moviesList.map(item => `
+        <tr class="hover:bg-white/5 transition-colors">
+          <td class="p-3">
+            <img src="${item.poster}" class="w-8 h-10 object-cover rounded-md" onerror="this.src='https://placehold.co/40x50/222/fff'">
+          </td>
+          <td class="p-3 font-semibold text-white">${item.title}</td>
+          <td class="p-3 text-slate-400">${item.genre}</td>
+          <td class="p-3 text-slate-400">${item.year || '2026'}</td>
+          <td class="p-3 text-right">
+            <button onclick="deleteMovie('${item.id}')" class="text-red-400 hover:text-red-300 p-1.5 rounded-lg hover:bg-red-950/40">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Save Adsterra Config
+    function handleSaveAdsterraConfig(e) {
+      e.preventDefault();
+      siteConfig.directLink1 = document.getElementById('cfgDirect1').value.trim();
+      siteConfig.directLink2 = document.getElementById('cfgDirect2').value.trim();
+      siteConfig.telegramLink = document.getElementById('cfgTelegram').value.trim();
+      siteConfig.noticeText = document.getElementById('cfgNotice').value.trim() || siteConfig.noticeText;
+      siteConfig.popunderCode = document.getElementById('cfgPopunderCode').value.trim();
+
+      localStorage.setItem(LS_CONFIG, JSON.stringify(siteConfig));
+      applySiteConfig();
+      showToast('Adsterra সেটিংস সফলভাবে আপডেট হয়েছে!');
+    }
+
+    // Save Firebase Config
+    function handleSaveFirebaseConfig(e) {
+      e.preventDefault();
+      const json = document.getElementById('cfgFirebaseJson').value.trim();
+      try {
+        const parsed = JSON.parse(json);
+        localStorage.setItem('nmc_firebase_keys', JSON.stringify(parsed));
+        document.getElementById('storageSourceBadge').innerText = '● ক্লাউড সিঙ্ক চালু';
+        showToast('Firebase কনফিগ সফলভাবে সেভ হয়েছে!');
+      } catch (err) {
+        showToast('ভুল JSON ফরম্যাট! সঠিক কোড দিন।');
+      }
+    }
+
+    function restoreInitialDataset() {
+      moviesList = [...DEFAULT_CATALOG];
+      localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+      renderMovieGrid();
+      renderAdminTable();
+      showToast('ডিফল্ট মুভি ডাটাবেজ রিস্টোর করা হয়েছে!');
+    }
+
+    function exportFullDatabaseJson() {
+      const data = { moviesList, siteConfig };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `movies_backup_${Date.now()}.json`;
+      a.click();
+    }
+
+    function logoutAdmin() {
+      toggleModal('adminPanelModal', false);
+      showToast('অ্যাডমিন প্যানেল থেকে লগআউট সম্পন্ন হয়েছে।');
+    }
+
+    function toggleModal(id, show) {
+      document.getElementById(id).classList.toggle('hidden', !show);
+    }
+
+    function scrollToCollection() {
+      document.getElementById('collectionSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Start App on Page Load
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
