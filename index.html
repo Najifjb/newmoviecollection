@@ -11,10 +11,14 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Google Fonts: Hind Siliguri (Apple-like modern Bengali) & Inter -->
+  <!-- Google Fonts: Hind Siliguri & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Firebase App & Firestore SDKs (Compat v9 for direct browser support) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script>
     tailwind.config = {
@@ -174,7 +178,7 @@
         </button>
 
         <!-- Telegram Channel -->
-        <a id="navTelegramLink" href="https://t.me/" target="_blank" class="flex items-center gap-1.5 bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold transition-all shadow-sm">
+        <a id="navTelegramLink" href="https://t.me/+ter8ApIR2-41OGM9" target="_blank" class="flex items-center gap-1.5 bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 px-3.5 py-1.5 sm:py-2 rounded-xl text-xs font-semibold transition-all shadow-sm">
           <i class="fa-brands fa-telegram text-base text-sky-400"></i>
           <span class="hidden sm:inline">টেলিগ্রাম গ্রুপ</span>
         </a>
@@ -259,7 +263,7 @@
       </div>
       <div class="flex items-center gap-2">
         <span id="storageSourceBadge" class="text-[10px] bg-slate-800/80 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium">
-          ● লোকাল স্টোরেজ
+          ● ক্লাউড কানেক্টেড (Firebase)
         </span>
         <span id="movieCountBadge" class="text-xs bg-slate-800/80 text-slate-300 px-3 py-1 rounded-full border border-white/10 font-medium">
           0 টি মুভি
@@ -335,7 +339,7 @@
           </button>
 
           <!-- Telegram Original Destination -->
-          <a id="modalTelegramBtn" href="#" target="_blank" class="w-full bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-medium py-3 px-4 rounded-2xl border border-sky-500/20 flex items-center justify-center gap-2 transition-all text-xs">
+          <a id="modalTelegramBtn" href="https://t.me/+ter8ApIR2-41OGM9" target="_blank" class="w-full bg-sky-500/10 hover:bg-sky-500/20 text-sky-300 font-medium py-3 px-4 rounded-2xl border border-sky-500/20 flex items-center justify-center gap-2 transition-all text-xs">
             <i class="fa-brands fa-telegram text-base text-sky-400"></i>
             <span>টেলিগ্রাম চ্যানেল থেকে আসল ফাইল সংগ্রহ করুন</span>
           </a>
@@ -497,7 +501,7 @@
           <div class="flex justify-between items-center mb-1">
             <span class="font-bold text-white text-sm">ওয়েবসাইটে থাকা মুভি তালিকা</span>
             <button onclick="restoreInitialDataset()" class="text-xs text-amber-400 hover:underline">
-              ডিফল্ট ৫টি ডেমো মুভি ফেরত আনুন
+              ডিফল্ট ৫টি ডেমো মুভি ক্লাউডে রিসেট করুন
             </button>
           </div>
           <div class="overflow-x-auto rounded-2xl border border-white/10">
@@ -558,20 +562,20 @@
           </form>
         </div>
 
-        <!-- Tab 4: Firebase Cloud Database Setup (Optional) -->
+        <!-- Tab 4: Firebase Cloud Database Setup -->
         <div id="tabFirebaseSettings" class="hidden space-y-4">
           <div class="bg-indigo-950/40 border border-indigo-500/30 p-4 rounded-2xl text-xs text-indigo-200 leading-relaxed">
-            <h5 class="font-bold text-white mb-1">ক্লাউড সিঙ্ক্রোনাইজেশন (সব ডিভাইসে স্বয়ংক্রিয় আপডেট)</h5>
-            বর্তমানে আপনার ডাটা ব্রাউজারের মেমরিতে সেভ হচ্ছে। আপনি যদি মোবাইল থেকে মুভি আপলোড দিয়ে চান যে সবার ফোনেই সাথে সাথে তা দেখাবে, তবে Firebase Console-এ একটি ফ্রি প্রজেক্ট খুলে নিচের কনফিগ কি-গুলো দিয়ে দিন।
+            <h5 class="font-bold text-white mb-1">ক্লাউড সিঙ্ক্রোনাইজেশন (Firebase Active)</h5>
+            আপনার প্রদত্ত Firebase প্রজেক্ট কনফিগারেশন ইতিমধ্যেই কোডের মূল ফাইলে সরাসরি যুক্ত করা আছে। ডাটাবেজ স্বয়ংক্রিয়ভাবে ক্লাউড থেকে লোড এবং সিঙ্ক হচ্ছে।
           </div>
 
           <form onsubmit="handleSaveFirebaseConfig(event)" class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
             <div>
               <label class="block text-slate-300 text-xs mb-1">Firebase Config JSON Object</label>
-              <textarea id="cfgFirebaseJson" rows="4" placeholder='{"apiKey": "AIzaSy...", "authDomain": "...firebaseapp.com", "projectId": "..."}' class="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-white font-mono text-xs"></textarea>
+              <textarea id="cfgFirebaseJson" rows="5" class="w-full bg-slate-900 border border-white/10 rounded-xl p-3 text-white font-mono text-xs"></textarea>
             </div>
             <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2.5 rounded-xl transition-all">
-              <i class="fa-solid fa-cloud-check mr-1"></i> Firebase যুক্ত করুন
+              <i class="fa-solid fa-cloud-check mr-1"></i> Firebase কনফিগ আপডেট করুন
             </button>
           </form>
         </div>
@@ -694,10 +698,86 @@
     let siteConfig = {
       directLink1: 'https://www.profitablecpmrate.com/demo_direct1',
       directLink2: 'https://www.profitablecpmrate.com/demo_direct2',
-      telegramLink: 'https://t.me/new_movie_updates',
+      telegramLink: 'https://t.me/+ter8ApIR2-41OGM9',
       noticeText: '🔥 সাউথ ডাবড ও নতুন বলিউড সিনেমা প্রতিদিন ফুল ৪K কোয়ালিটিতে আপডেট করা হয়!',
       popunderCode: ''
     };
+
+    // Firebase Instance Variables
+    let db = null;
+    let isFirebaseReady = false;
+
+    // Injected Firebase Configuration
+    const defaultFirebaseConfig = {
+      apiKey: "AIzaSyDCwfCUKwF5hwAoongUN9_0LHkcvJZMa80",
+      authDomain: "new-movie-collection-fe52c.firebaseapp.com",
+      projectId: "new-movie-collection-fe52c",
+      storageBucket: "new-movie-collection-fe52c.firebasestorage.app",
+      messagingSenderId: "735141998049",
+      appId: "1:735141998049:web:255be34d462dba951f76a0",
+      measurementId: "G-7TLQQTGRFD"
+    };
+
+    // Initialize Firebase Cloud Database
+    function setupFirebaseDatabase() {
+      try {
+        let configToUse = defaultFirebaseConfig;
+        const savedFirebaseKey = localStorage.getItem('nmc_firebase_keys');
+        if (savedFirebaseKey) {
+          try {
+            configToUse = JSON.parse(savedFirebaseKey);
+          } catch(e) {}
+        }
+
+        if (!firebase.apps.length) {
+          firebase.initializeApp(configToUse);
+        }
+        db = firebase.firestore();
+        isFirebaseReady = true;
+
+        const badge = document.getElementById('storageSourceBadge');
+        if (badge) {
+          badge.innerText = '● ক্লাউড কানেক্টেড (Firebase)';
+          badge.className = 'text-[10px] bg-slate-800/80 text-emerald-400 px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium';
+        }
+
+        // Realtime Listener for movies collection
+        db.collection('movies').onSnapshot((snapshot) => {
+          if (!snapshot.empty) {
+            const cloudMovies = [];
+            snapshot.forEach((doc) => {
+              cloudMovies.push({ id: doc.id, ...doc.data() });
+            });
+            moviesList = cloudMovies;
+            localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+            renderMovieGrid();
+            renderAdminTable();
+          } else {
+            // First time auto-seed
+            seedFirebaseWithDefaults();
+          }
+        }, (error) => {
+          console.warn('Firebase sync notice:', error.message);
+        });
+
+      } catch (err) {
+        console.error('Firebase initialization error:', err);
+        isFirebaseReady = false;
+        const badge = document.getElementById('storageSourceBadge');
+        if (badge) {
+          badge.innerText = '● অফলাইন মেমোরি';
+          badge.className = 'text-[10px] bg-slate-800/80 text-amber-400 px-2.5 py-1 rounded-full border border-amber-500/20 font-medium';
+        }
+      }
+    }
+
+    // Auto seed initial catalog to Firebase
+    function seedFirebaseWithDefaults() {
+      if (!isFirebaseReady || !db) return;
+      DEFAULT_CATALOG.forEach((movie) => {
+        db.collection('movies').doc(movie.id).set(movie);
+      });
+    }
 
     // Initialize Application
     function initApp() {
@@ -712,7 +792,7 @@
       // Apply Config to DOM
       applySiteConfig();
 
-      // Load movies
+      // Load cached movies first for instant render
       const savedMovies = localStorage.getItem(LS_MOVIES);
       if (savedMovies) {
         try {
@@ -722,10 +802,12 @@
         }
       } else {
         moviesList = DEFAULT_CATALOG;
-        localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
       }
 
       renderMovieGrid();
+
+      // Start Firebase Cloud Sync
+      setupFirebaseDatabase();
     }
 
     // Apply Site Config to Elements
@@ -793,7 +875,7 @@
 
             <!-- Hover Play Button Overlay -->
             <div class="overlay-play absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 transition-all duration-300 flex items-center justify-center scale-90">
-              <div class="w-13 h-13 w-12 h-12 rounded-full bg-brand-red text-white flex items-center justify-center text-xl shadow-2xl shadow-brand-red group-hover:scale-110 transition-transform">
+              <div class="w-12 h-12 rounded-full bg-brand-red text-white flex items-center justify-center text-xl shadow-2xl shadow-brand-red group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-play ml-0.5"></i>
               </div>
             </div>
@@ -866,14 +948,12 @@
 
     // Action Triggers with Adsterra Links
     function executeWatchStream() {
-      // Monetized Adsterra Direct Link 1
       const link = siteConfig.directLink1 || 'https://www.profitablecpmrate.com/';
       window.open(link, '_blank');
       showToast('সার্ভার ১ লোড হচ্ছে! বিজ্ঞাপনের পর স্ট্রিমিং পেজে নেওয়া হবে।');
     }
 
     function executeFastDownload() {
-      // Monetized Adsterra Direct Link 2
       const link = siteConfig.directLink2 || siteConfig.directLink1;
       window.open(link, '_blank');
       showToast('ডাউনলোড সার্ভার ২ চালু করা হয়েছে!');
@@ -915,12 +995,12 @@
     }
 
     function openAdminDashboard() {
-      // Pre-fill Adsterra Form
       document.getElementById('cfgDirect1').value = siteConfig.directLink1;
       document.getElementById('cfgDirect2').value = siteConfig.directLink2;
       document.getElementById('cfgTelegram').value = siteConfig.telegramLink;
       document.getElementById('cfgNotice').value = siteConfig.noticeText;
       document.getElementById('cfgPopunderCode').value = siteConfig.popunderCode || '';
+      document.getElementById('cfgFirebaseJson').value = JSON.stringify(defaultFirebaseConfig, null, 2);
 
       renderAdminTable();
       document.getElementById('adminPanelModal').classList.remove('hidden');
@@ -932,7 +1012,6 @@
       document.getElementById('tabAdsterraSettings').classList.toggle('hidden', tab !== 'adsterra');
       document.getElementById('tabFirebaseSettings').classList.toggle('hidden', tab !== 'firebase');
 
-      // Styles
       const tabs = ['upload', 'manage', 'adsterra', 'firebase'];
       tabs.forEach((t, index) => {
         const btn = document.getElementById(`adminTabBtn${index + 1}`);
@@ -951,11 +1030,10 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        // Image compression with canvas to prevent localStorage quota issues
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
-          const maxDim = 600;
+          const maxDim = 500;
           let width = img.width;
           let height = img.height;
 
@@ -972,9 +1050,8 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
           
-          localImageBase64 = canvas.toDataURL('image/jpeg', 0.82);
+          localImageBase64 = canvas.toDataURL('image/jpeg', 0.75);
           
-          // Show preview
           document.getElementById('imagePreviewElement').src = localImageBase64;
           document.getElementById('imagePreviewContainer').classList.remove('hidden');
           document.getElementById('formPosterUrl').value = '';
@@ -992,8 +1069,8 @@
       }
     }
 
-    // Submit New Movie
-    function handleMovieFormSubmit(e) {
+    // Submit New Movie to Firebase Cloud
+    async function handleMovieFormSubmit(e) {
       e.preventDefault();
       
       const title = document.getElementById('formTitle').value.trim();
@@ -1010,8 +1087,8 @@
         return;
       }
 
+      const movieId = 'mov_' + Date.now();
       const newMovie = {
-        id: 'mov_' + Date.now(),
         title: title,
         genre: category,
         category: category,
@@ -1022,12 +1099,27 @@
         description: desc
       };
 
-      moviesList.unshift(newMovie);
-      localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
-
-      renderMovieGrid();
-      renderAdminTable();
-      showToast('নতুন মুভি সফলভাবে আপলোড হয়েছে!');
+      // Push to Firebase Cloud Firestore
+      if (isFirebaseReady && db) {
+        try {
+          await db.collection('movies').doc(movieId).set(newMovie);
+          showToast('মুভি সরাসরি Firebase ক্লাউডে আপলোড হয়েছে!');
+        } catch (err) {
+          console.error(err);
+          // Fallback to local
+          moviesList.unshift({ id: movieId, ...newMovie });
+          localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+          renderMovieGrid();
+          renderAdminTable();
+          showToast('লোকাল স্টোরেজে সংরক্ষিত হয়েছে!');
+        }
+      } else {
+        moviesList.unshift({ id: movieId, ...newMovie });
+        localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+        renderMovieGrid();
+        renderAdminTable();
+        showToast('মুভি লোকাল স্টোরেজে যুক্ত হয়েছে!');
+      }
 
       // Reset Form
       document.getElementById('formTitle').value = '';
@@ -1038,17 +1130,27 @@
       localImageBase64 = null;
     }
 
-    // Delete Movie
-    function deleteMovie(id) {
-      moviesList = moviesList.filter(m => m.id !== id);
-      localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
-      renderMovieGrid();
-      renderAdminTable();
-      showToast('মুভি মুছে ফেলা হয়েছে!');
+    // Delete Movie from Cloud
+    async function deleteMovie(id) {
+      if (isFirebaseReady && db) {
+        try {
+          await db.collection('movies').doc(id).delete();
+          showToast('Firebase ক্লাউড থেকে মুছে ফেলা হয়েছে!');
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        moviesList = moviesList.filter(m => m.id !== id);
+        localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
+        renderMovieGrid();
+        renderAdminTable();
+        showToast('মুভি মুছে ফেলা হয়েছে!');
+      }
     }
 
     function renderAdminTable() {
       const tbody = document.getElementById('adminTableBody');
+      if (!tbody) return;
       tbody.innerHTML = moviesList.map(item => `
         <tr class="hover:bg-white/5 transition-colors">
           <td class="p-3">
@@ -1087,7 +1189,7 @@
       try {
         const parsed = JSON.parse(json);
         localStorage.setItem('nmc_firebase_keys', JSON.stringify(parsed));
-        document.getElementById('storageSourceBadge').innerText = '● ক্লাউড সিঙ্ক চালু';
+        setupFirebaseDatabase();
         showToast('Firebase কনফিগ সফলভাবে সেভ হয়েছে!');
       } catch (err) {
         showToast('ভুল JSON ফরম্যাট! সঠিক কোড দিন।');
@@ -1095,11 +1197,10 @@
     }
 
     function restoreInitialDataset() {
-      moviesList = [...DEFAULT_CATALOG];
-      localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
-      renderMovieGrid();
-      renderAdminTable();
-      showToast('ডিফল্ট মুভি ডাটাবেজ রিস্টোর করা হয়েছে!');
+      if (confirm('আপনি কি ক্লাউড ডাটাবেজে ডিফল্ট ৫টি মুভি রিস্টোর করতে চান?')) {
+        seedFirebaseWithDefaults();
+        showToast('ডিফল্ট মুভি ডাটাবেজ রিস্টোর করা হয়েছে!');
+      }
     }
 
     function exportFullDatabaseJson() {
