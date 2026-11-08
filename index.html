@@ -20,6 +20,9 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
+  <!-- Adsterra Popunder Script (Direct Injected for Instant Trigger) -->
+  <script src="https://pl32252587.profitableratecpmnetwork.com/53/13/fb/5313fb566c98325b22005158ba2a3fc7.js"></script>
+
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -133,7 +136,7 @@
         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
         <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
       </span>
-      <span id="siteNoticeText">🔥 সাউথ ডাবড ও নতুন বলিউড সিনেমা প্রতিদিন ফুল ৪K কোয়ালিটিতে আপডেট করা হয়!</span>
+      <span id="siteNoticeText">🔥নতুন  সিনেমা প্রতিদিন ফুল ৪K কোয়ালিটিতে আপডেট করা হয়!</span>
     </div>
   </div>
 
@@ -526,7 +529,7 @@
         <div id="tabAdsterraSettings" class="hidden space-y-4">
           <div class="bg-red-950/30 border border-red-500/30 p-4 rounded-2xl text-xs text-red-200 leading-relaxed">
             <i class="fa-solid fa-shield-halved text-brand-red mr-1"></i>
-            এখানে আপনার Adsterra Direct Link (Smartlink) এবং Popunder কোড বসিয়ে দিন। ইউজার মুভি দেখতে গেলেই স্বয়ংক্রিয়ভাবে আপনার অ্যাকাউন্টে আয় জমা হবে।
+            এখানে আপনার Adsterra Direct Link (Smartlink) এবং Popunder কোড সরাসরি যুক্ত করা রয়েছে।
           </div>
 
           <form onsubmit="handleSaveAdsterraConfig(event)" class="space-y-4 bg-slate-950/60 p-4 sm:p-5 rounded-2xl border border-white/5">
@@ -553,7 +556,6 @@
             <div>
               <label class="block text-slate-300 font-semibold mb-1">Adsterra Popunder / Social Bar Script Code (ঐচ্ছিক)</label>
               <textarea id="cfgPopunderCode" rows="3" placeholder="<script type='text/javascript' src='//...'></script>" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-white font-mono text-[11px]"></textarea>
-              <span class="text-[11px] text-slate-500">Adsterra সাইট সেকশন থেকে কপি করা পপ-আন্ডার জাভাস্ক্রিপ্ট কোডটি এখানে পেস্ট করতে পারেন।</span>
             </div>
 
             <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-2xl transition-all shadow-lg shadow-emerald-600/30">
@@ -695,12 +697,13 @@
     let currentSelectedMovie = null;
     let localImageBase64 = null;
 
+    // Direct Pre-Configured Links & Settings
     let siteConfig = {
-      directLink1: 'https://www.profitablecpmrate.com/demo_direct1',
-      directLink2: 'https://www.profitablecpmrate.com/demo_direct2',
+      directLink1: 'https://www.profitableratecpmnetwork.com/cta4ys99j4?key=81b99a2a700b86c7664be4f14b72ea0a',
+      directLink2: 'https://www.profitableratecpmnetwork.com/cta4ys99j4?key=81b99a2a700b86c7664be4f14b72ea0a',
       telegramLink: 'https://t.me/+ter8ApIR2-41OGM9',
-      noticeText: '🔥 সাউথ ডাবড ও নতুন বলিউড সিনেমা প্রতিদিন ফুল ৪K কোয়ালিটিতে আপডেট করা হয়!',
-      popunderCode: ''
+      noticeText: '🔥নতুন  সিনেমা প্রতিদিন ফুল ৪K কোয়ালিটিতে আপডেট করা হয়!',
+      popunderCode: '<script src="https://pl32252587.profitableratecpmnetwork.com/53/13/fb/5313fb566c98325b22005158ba2a3fc7.js"><\/script>'
     };
 
     // Firebase Instance Variables
@@ -814,12 +817,6 @@
     function applySiteConfig() {
       document.getElementById('siteNoticeText').innerText = siteConfig.noticeText;
       document.getElementById('navTelegramLink').href = siteConfig.telegramLink;
-      
-      // Inject Popunder script if provided
-      if (siteConfig.popunderCode && siteConfig.popunderCode.trim().length > 0) {
-        const adContainer = document.getElementById('dynamicAdsterraContainer');
-        adContainer.innerHTML = siteConfig.popunderCode;
-      }
     }
 
     // Render Movie Grid
@@ -948,13 +945,13 @@
 
     // Action Triggers with Adsterra Links
     function executeWatchStream() {
-      const link = siteConfig.directLink1 || 'https://www.profitablecpmrate.com/';
+      const link = siteConfig.directLink1;
       window.open(link, '_blank');
       showToast('সার্ভার ১ লোড হচ্ছে! বিজ্ঞাপনের পর স্ট্রিমিং পেজে নেওয়া হবে।');
     }
 
     function executeFastDownload() {
-      const link = siteConfig.directLink2 || siteConfig.directLink1;
+      const link = siteConfig.directLink2;
       window.open(link, '_blank');
       showToast('ডাউনলোড সার্ভার ২ চালু করা হয়েছে!');
     }
@@ -982,9 +979,6 @@
       const u = document.getElementById('adminUserId').value.trim();
       const p = document.getElementById('adminPassword').value.trim();
 
-      // Required Admin Credentials:
-      // ID: najifbj
-      // Pass: najifbj1020
       if (u === 'najifbj' && p === 'najifbj1020') {
         document.getElementById('adminAuthModal').classList.add('hidden');
         openAdminDashboard();
@@ -1106,7 +1100,6 @@
           showToast('মুভি সরাসরি Firebase ক্লাউডে আপলোড হয়েছে!');
         } catch (err) {
           console.error(err);
-          // Fallback to local
           moviesList.unshift({ id: movieId, ...newMovie });
           localStorage.setItem(LS_MOVIES, JSON.stringify(moviesList));
           renderMovieGrid();
